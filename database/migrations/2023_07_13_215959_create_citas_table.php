@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('paciente_id')->require()->constrained('pacientes');
             $table->foreignId('doctor_id')->require()->constrained('doctors');
             $table->foreignId('secretaria_id')->require()->constrained('secretatios');
+            $table->foreignId('estado_id')->require()->constrained('estados');
             $table->timestamps();
         });
     }

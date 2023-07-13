@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\UserController;
@@ -21,12 +22,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Auth/Login');
 });
 
 Route::get('/dashboard', function () {
@@ -45,6 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/doctor', DoctorController::class);
     Route::resource('/secretario', SecretatioController::class);
     Route::resource('/paciente', PacienteController::class);
+    Route::resource('/citas', CitaController::class);
+    Route::get('/citas/export', [CitaController::class, 'export'])->name('citas.export');
+
 
 });
 

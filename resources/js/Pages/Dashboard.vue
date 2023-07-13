@@ -3,12 +3,12 @@
 
     <AuthenticatedLayout>
         <template #header>
-            Dashboard
+            Panel General
         </template>
 
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 border-b border-gray-200">
-                You're logged in!
+                Bienvenido al Sistema de Citas
             </div>
         </div>
     </AuthenticatedLayout>
