@@ -9,6 +9,7 @@ use App\Http\Controllers\SecretatioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spatie\Permission\Middlewares\RoleMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,21 +31,34 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/about', fn () => Inertia::render('About'))->name('about');
-
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/doctor', DoctorController::class);
-    Route::resource('/secretario', SecretatioController::class);
+    // Rutas protegidas por roles
+
+    // Rol Admin
+    Route::middleware('role:admin')->group(function () {
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('users', [UserController::class, 'store'])->name('users.store');
+        Route::delete('users/{users}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
+
+    // Rol Doctor
+    Route::middleware('role:admin|doctor')->group(function () {
+        Route::resource('/doctor', DoctorController::class);
+    });
+
+    //Rol secretrario
+    Route::middleware('role:admin|secretario')->group(function () {
+        Route::resource('/secretario', SecretatioController::class);
+    });
+
     Route::resource('/paciente', PacienteController::class);
     Route::resource('/citas', CitaController::class);
     Route::get('/citas/export', [CitaController::class, 'export'])->name('citas.export');
-
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

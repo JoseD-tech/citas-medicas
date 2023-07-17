@@ -11,4 +11,7 @@ class Doctor extends Model
     public function Doctores() {
         return $this->belongsTo(Cita::class);
     }
+    public function HistorialDotores(){
+        return $this->belongsTo(Historial::class);
+    }
 }

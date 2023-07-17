@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\CitasExport;
 use App\Models\Cita;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Doctor;
 use App\Models\Paciente;
+use App\Exports\CitasExport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CitaController extends Controller
@@ -17,11 +19,20 @@ class CitaController extends Controller
      */
     public function index()
     {
+        $users = User::class;
+        $roles = [];
+        $doctores = DB::table('model_has_roles')->where('role_id', 2)->get();
+
+        foreach ($doctores as $doctor) {
+            $doctor = User::where('id',$doctor->model_id)->first();
+            array_push($roles, $doctor);
+        }
+
         //retona las citas
-        $citas = Cita::with('PacienteCita', 'Doctor')->get();
+        $citas = Cita::with('PacienteCita')->get();
         return Inertia::render('Citas/Index', [
             "pacientes" => Paciente::all(),
-            "doctores" => Doctor::all(),
+            "doctores" => $roles, //para saber cuales son lo roles de doctor
             "citas" => $citas
         ]);
     }
@@ -43,8 +54,7 @@ class CitaController extends Controller
         $cita = new Cita;
         $cita->decripcion = $request->input('descripcion');
         $cita->paciente_id = $request->input('paciente');
-        $cita->secretaria_id = 1;
-        $cita->doctor_id = $request->input('doctor');
+        $cita->doctor = $request->input('doctor');
         $cita->fecha_cita = $request->input('fecha');
         $cita->estado_id = 1;
         $cita->save();
@@ -83,7 +93,8 @@ class CitaController extends Controller
         //
     }
 
-    public function export(){
+    public function export()
+    {
         var_dump('hola');
         return Excel::download(new CitasExport, 'Citas.xlsx');
     }

@@ -67,7 +67,6 @@ const props = defineProps({
 })
 
 const eliminarDoctor = (id) =>  {
-    console.log('se ejecurta eliminar');
     router.delete(`/secretario/${id}`)
 }
 

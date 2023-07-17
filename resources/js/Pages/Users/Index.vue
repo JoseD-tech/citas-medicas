@@ -1,22 +1,36 @@
 <template>
-    <Head title="Users" />
+    <Head title="Usuarios" />
 
     <AuthenticatedLayout>
         <template #header>
-            Users
+            Gestion de Usuarios
         </template>
 
         <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+            <div class="flex justify-end item-center py-2">
+                <Link :href="route('users.create')"
+                    class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">
+                Crear Usuarios
+                </Link>
+            </div>
             <table class="w-full whitespace-no-wrap">
                 <thead>
                     <tr class="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                            Name
+                            Nombre y Apellido
                         </th>
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                            Email
+                            Correo
+                        </th>
+                        <th
+                            class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                            Rol
+                        </th>
+                        <th
+                            class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                            Acciones
                         </th>
                     </tr>
                 </thead>
@@ -28,6 +42,18 @@
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                             <p class="text-gray-900 whitespace-no-wrap">{{ user.email }}</p>
                         </td>
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <template v-for="rol in props.roles" :key="rol">
+                                <span v-if="rol.id === user.id"
+                                    class="p-1 text-gray-500 uppercase rounded-lg outline-none">
+                                    {{ rol.role }}</span>
+                            </template>
+
+                        </td>
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <button @click="eliminarUser(user.id)"
+                                class="p-1 border border-red-500 text-red-500 uppercase rounded-lg outline-none shadow-lg">Eliminar</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -35,6 +61,7 @@
             <div class="flex flex-col items-center border-t bg-white px-5 py-5 xs:flex-row xs:justify-between">
                 <pagination :links="users.links" />
             </div>
+
         </div>
     </AuthenticatedLayout>
 </template>
@@ -42,9 +69,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Pagination from '@/Components/Pagination.vue'
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
-    users: Object
+    users: Object,
+    roles: Object
 })
+
+const eliminarUser = (id) => {
+    router.delete(`/users/${id}`)
+}
+
+
 </script>

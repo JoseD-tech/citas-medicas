@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('citas', function (Blueprint $table) {
+        Schema::create('historials', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha_cita')->require();
-            $table->text('decripcion')->require();
+            $table->text('descripcion')->require();
             $table->foreignId('paciente_id')->require()->constrained('pacientes');
-            $table->string('doctor')->require();
-            $table->foreignId('estado_id')->default(1)->constrained('estados');
+            $table->foreignId('doctor_id')->require()->constrained('doctors');
+            $table->foreignId('secretaria_id')->require()->constrained('secretatios');
+            $table->foreignId('cita_id')->require()->constrained('citas');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citas');
+        Schema::dropIfExists('historials');
     }
 };

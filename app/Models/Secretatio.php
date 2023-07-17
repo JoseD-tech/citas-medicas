@@ -11,4 +11,7 @@ class Secretatio extends Model
     public function Secretarios() {
         return $this->belongsTo(Cita::class);
     }
+    public function HistorialSecretatios(){
+        return $this->belongsTo(Historial::class);
+    }
 }

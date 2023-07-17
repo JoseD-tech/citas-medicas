@@ -20,4 +20,7 @@ class Cita extends Model
     public function Estado(){
         return $this->belongsTo(Estado::class);
     }
+    public function HistorialCitas(){
+        return $this->belongsTo(Historial::class);
+    }
 }

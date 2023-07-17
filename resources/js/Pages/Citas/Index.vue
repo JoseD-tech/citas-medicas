@@ -67,7 +67,7 @@
                                                 </p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">{{ cita.doctor.doctor }}</p>
+                                                <p class="text-gray-900 whitespace-no-wrap">{{ cita.doctor }}</p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
@@ -145,7 +145,7 @@
                                                             <h3
                                                                 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
                                                                 Doctor</h3>
-                                                            <p>Nombre Del Doctor: {{ cita.doctor.doctor }}</p>
+                                                            <p>Nombre Del Doctor: {{ cita.doctor }}</p>
                                                         </div>
                                                         <div>
                                                             <h3
@@ -206,8 +206,11 @@
                         <label class="text-gray-800 text-sm font-bold leading-tight tracking-normal">Doctor</label>
                         <select v-model="form.doctor"
                             class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
-                            <option :value="doctor.id" v-for="doctor in props.doctores" :key="doctor.id">{{ doctor.doctor }}
-                            </option>
+
+                                <option :value="doctor.name" v-for="doctor in props.doctores" :key="doctor.id">{{
+                                    doctor.name }}
+                                </option>
+
                         </select>
                     </div>
                     <div>

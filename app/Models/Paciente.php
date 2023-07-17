@@ -11,4 +11,7 @@ class Paciente extends Model
     public function PacientesCitas () {
         return $this->belongsTo(Cita::class, 'id', 'paciente_id');
     }
+    public function HistorialPacientes(){
+        return $this->belongsTo(Historial::class);
+    }
 }
