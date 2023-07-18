@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cita;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,10 +16,10 @@ class DoctorController extends Controller
     {
         //retorna la vista de Doctores
 
-        $doctores = Doctor::all();
+        $citas = Cita::with('PacienteCita')->get();
 
         return Inertia::render('Doctor/Index', [
-            'doctores' => $doctores
+            'citas' => $citas
         ]);
     }
 
@@ -36,11 +37,8 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        // Registra el doctor
-        $doctor = new Doctor();
-        $doctor->doctor = $request->input('doctor');
-        $doctor->save();
-        return to_route('doctor.index');
+        // Registra el Historial de la cita y cambiar el estado
+        dd($request);
     }
 
     /**
@@ -57,6 +55,7 @@ class DoctorController extends Controller
     public function edit(Doctor $doctor)
     {
         //
+        dd($doctor);
         return Inertia::render('Doctor/Edit', [
             'doctor' => $doctor
         ]);

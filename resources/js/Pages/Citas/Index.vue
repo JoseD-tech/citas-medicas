@@ -294,8 +294,6 @@ const props = defineProps({
     citas: Object
 })
 
-console.log(props.citas);
-
 const mostrarModal = () => {
     modalCreate.value = !modalCreate.value
 }
