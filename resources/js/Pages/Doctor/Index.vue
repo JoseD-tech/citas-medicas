@@ -11,7 +11,7 @@
                 <div class="bg-white rounded-md w-full">
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                            <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                            <div v-if="props.citas.length > 0" class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                 <table class="min-w-full leading-normal">
                                     <thead>
                                         <tr>
@@ -84,6 +84,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <p v-else>
+                                No Hay Consultas
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -246,6 +249,7 @@ let citaSeleccionada = ref(null)
 let citaAtenderSeleccionada = ref(null)
 
 const form = reactive({
+    id: null,
     paciente: null,
     doctor: null,
     descripcion: null,
@@ -259,10 +263,12 @@ const props = defineProps({
     citas: Object
 })
 
+console.log(props.citas);
+
 
 const atenderCita = (id) => {
     citaAtenderSeleccionada.value = props.citas.find((cita) => cita.id === id);
-    console.log(citaAtenderSeleccionada.value);
+    form.id = id
     modalAtender.value = !modalAtender.value
 }
 

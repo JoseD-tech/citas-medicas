@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cita;
 use App\Models\Doctor;
+use App\Models\Historial;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -38,7 +39,20 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         // Registra el Historial de la cita y cambiar el estado
-        dd($request);
+        // Guardar En historial
+        $consulta = new Historial;
+        $consulta->paciente_id = $request->input("paciente");
+        $consulta->doctor = $request->input("doctor");
+        $consulta->descripcion = $request->input("descripcion");
+        $consulta->resultado = $request->input("resultado");
+        $consulta->save();
+
+        // cambia el estado de la cita
+        $cita = Cita::findOrFail($request->input("id"));
+        $cita->estado_id = 2;
+        $cita->save();
+
+        return to_route('doctor.index');
     }
 
     /**
@@ -55,7 +69,6 @@ class DoctorController extends Controller
     public function edit(Doctor $doctor)
     {
         //
-        dd($doctor);
         return Inertia::render('Doctor/Edit', [
             'doctor' => $doctor
         ]);
