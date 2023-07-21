@@ -26,13 +26,12 @@
                                 class="bg-green-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Nueva
                                 Cita</button>
 
-                            <button @click="exportData"
-                                class="bg-blue-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Exportar</button>
+
                         </div>
 
                     </div>
                     <div>
-                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                        <div v-if="props.citas.length > 0" class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                             <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                 <table class="min-w-full leading-normal">
                                     <thead>
@@ -93,102 +92,27 @@
                                                 </template>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm space-x-2">
-                                                <button @click="mostrarCita"
+                                                <button @click="mostrarCita(cita.id)"
                                                     class="bg-yellow-600 px-2 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer">Ver
                                                     Cita</button>
-                                                <button
-                                                    class="bg-cyan-600 px-2 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer">Recipe</button>
-                                                <button
+
+                                                <button v-if="cita.estado_id === 2" @click="mostrarReporte(cita.id)"
                                                     class="bg-red-600 px-2 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer">Reporte</button>
                                             </td>
 
-                                            <Modal :show="verCita">
-                                                <div role="alert">
-                                                    <div
-                                                        class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
-                                                        <h1
-                                                            class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4 text-2xl">
-                                                            Registro De Cita
-                                                        </h1>
-                                                        <div>
-                                                            <h3
-                                                                class="text-gray-800 font-bold leading-tight tracking-normal text-xl">
-                                                                Estado</h3>
-                                                            <template v-if="cita.estado_id === 1">
-                                                                <span
-                                                                    class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                                                    <span aria-hidden
-                                                                        class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                                                    <span class="relative">En Espera</span>
-                                                                </span>
-                                                            </template>
-                                                            <template v-else>
-                                                                <span
-                                                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                    <span aria-hidden
-                                                                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                                    <span class="relative">Atentedido</span>
-                                                                </span>
-                                                            </template>
-                                                        </div>
-                                                        <div>
-                                                            <h3
-                                                                class="text-gray-800 font-bold leading-tight tracking-normal text-xl mt-4">
-                                                                Paciente</h3>
-                                                            <p>Nombre y Apellido: {{ cita.paciente_cita.nombre }} {{
-                                                                cita.paciente_cita.apellido }}</p>
-                                                            <p>Cedula: {{ cita.paciente_cita.cedula }}</p>
-                                                            <p>Telefono: {{ cita.paciente_cita.telefono }}</p>
-                                                            <p>Sintomas: {{ cita.decripcion }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <h3
-                                                                class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
-                                                                Doctor</h3>
-                                                            <p>Nombre Del Doctor: {{ cita.doctor }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <h3
-                                                                class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
-                                                                Fecha De La Cita</h3>
-                                                            <p>Fecha de la Cita: {{ cita.fecha_cita }}</p>
-                                                        </div>
 
-
-                                                        <div class="mt-6 flex items-center justify-start w-full">
-
-                                                            <button
-                                                                class="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm w-full"
-                                                                @click="mostrarCita">Cancel</button>
-                                                        </div>
-                                                        <button
-                                                            class="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
-                                                            @click="mostrarCita" aria-label="close modal" role="button">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                class="icon icon-tabler icon-tabler-x" width="20"
-                                                                height="20" viewBox="0 0 24 24" stroke-width="2.5"
-                                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" />
-                                                                <line x1="18" y1="6" x2="6" y2="18" />
-                                                                <line x1="6" y1="6" x2="18" y2="18" />
-                                                            </svg>
-                                                        </button>
-
-                                                    </div>
-                                                </div>
-
-                                            </Modal>
 
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <p v-else>No Hay Citas Registradas</p>
                     </div>
                 </div>
             </div>
         </div>
+
         <Modal :show="modalCreate">
             <div role="alert">
                 <div class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
@@ -207,9 +131,9 @@
                         <select v-model="form.doctor"
                             class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
 
-                                <option :value="doctor.name" v-for="doctor in props.doctores" :key="doctor.id">{{
-                                    doctor.name }}
-                                </option>
+                            <option :value="doctor.name" v-for="doctor in props.doctores" :key="doctor.id">{{
+                                doctor.name }}
+                            </option>
 
                         </select>
                     </div>
@@ -267,6 +191,134 @@
 
         </Modal>
 
+        <Modal :show="verCita">
+            <div role="alert">
+                <div class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
+                    <h1 class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4 text-2xl">
+                        Registro De Cita
+                    </h1>
+                    <div>
+                        <h3 class="text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Estado</h3>
+                        <template v-if="citaSeleccionada.estado_id === 1">
+                            <span class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                <span class="relative">En Espera</span>
+                            </span>
+                        </template>
+                        <template v-else>
+                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                <span class="relative">Atentedido</span>
+                            </span>
+                        </template>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-800 font-bold leading-tight tracking-normal text-xl mt-4">
+                            Paciente</h3>
+                        <p>Nombre y Apellido: {{ citaSeleccionada.paciente_cita.nombre }} {{
+                            citaSeleccionada.paciente_cita.apellido }}</p>
+                        <p>Cedula: {{ citaSeleccionada.paciente_cita.cedula }}</p>
+                        <p>Telefono: {{ citaSeleccionada.paciente_cita.telefono }}</p>
+                        <p>Sintomas: {{ citaSeleccionada.decripcion }}</p>
+                    </div>
+                    <div>
+                        <h3 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Doctor</h3>
+                        <p>Nombre Del Doctor: {{ citaSeleccionada.doctor }}</p>
+                    </div>
+                    <div>
+                        <h3 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Fecha De La Cita</h3>
+                        <p>Fecha de la Cita: {{ citaSeleccionada.fecha_cita }}</p>
+                    </div>
+
+
+                    <div class="mt-6 flex items-center justify-start w-full">
+
+                        <button
+                            class="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm w-full"
+                            @click="mostrarCita">Cancel</button>
+                    </div>
+                    <button
+                        class="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
+                        @click="mostrarCita" aria-label="close modal" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20"
+                            height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" />
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+
+                </div>
+            </div>
+        </Modal>
+
+        <Modal :show="verReporte">
+            <div role="alert">
+                <div class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
+                    <h1 class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4 text-2xl">
+                        Reporte De Cita
+                    </h1>
+                    <div>
+                        <h3 class="text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Estado</h3>
+                        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                            <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                            <span class="relative">Atentedido</span>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-800 font-bold leading-tight tracking-normal text-xl mt-4">
+                            Paciente</h3>
+                        <p>Nombre y Apellido: {{ citaReporte.historia_paciente.nombre }} {{
+                            citaReporte.historia_paciente.apellido }}</p>
+                        <p>Cedula: {{ citaReporte.historia_paciente.cedula }}</p>
+                        <p>Telefono: {{ citaReporte.historia_paciente.telefono }}</p>
+                        <p>Sintomas: {{ citaReporte.descripcion }}</p>
+                    </div>
+                    <div>
+                        <h3 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Doctor</h3>
+                        <p>Nombre Del Doctor: {{ citaReporte.doctor }}</p>
+                    </div>
+                    <div>
+                        <h3 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Fecha De La Cita</h3>
+                        <p>Fecha de la Cita: {{ Date(citaReporte.historia_paciente.created_at) }}</p>
+                    </div>
+
+                    <div>
+                        <h3 class="mt-4 text-gray-800 font-bold leading-tight tracking-normal text-xl">
+                            Resultado De La Cita</h3>
+                        <p>Resultado: {{ citaReporte.resultado }}</p>
+                    </div>
+
+
+                    <div class="mt-6 flex items-center justify-start w-full">
+
+                        <button
+                            class="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm w-full"
+                            @click="mostrarReporte">Cancel</button>
+                    </div>
+                    <button
+                        class="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
+                        @click="mostrarReporte" aria-label="close modal" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20"
+                            height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" />
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+
+                </div>
+            </div>
+        </Modal>
+
     </AuthenticatedLayout>
 </template>
 
@@ -277,8 +329,19 @@ import { Head } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3'
 import { reactive, ref } from 'vue';
 
+const props = defineProps({
+    doctores: Object,
+    pacientes: Object,
+    citas: Object,
+    historial: Object
+})
+
 let modalCreate = ref(false)
 let verCita = ref(false)
+let verReporte = ref(false)
+let citaReporte = ref(null)
+let citaSeleccionada = ref(null)
+
 
 const form = reactive({
     paciente: null,
@@ -287,19 +350,18 @@ const form = reactive({
     fecha: null
 })
 
+const mostrarReporte = (id) => {
+    citaReporte.value = props.historial.find((historial) => historial.id === id);
+    verReporte.value = !verReporte.value
+}
 
-const props = defineProps({
-    doctores: Object,
-    pacientes: Object,
-    citas: Object
-})
+const mostrarCita = (id) => {
+    citaSeleccionada.value = props.citas.find((cita) => cita.id === id);
+    verCita.value = !verCita.value
+}
 
 const mostrarModal = () => {
     modalCreate.value = !modalCreate.value
-}
-
-const mostrarCita = () => {
-    verCita.value = !verCita.value
 }
 
 const guardarCita = () => {

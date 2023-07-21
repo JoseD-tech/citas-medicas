@@ -7,6 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Doctor;
 use App\Models\Paciente;
+use App\Models\Historial;
 use App\Exports\CitasExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,10 +31,12 @@ class CitaController extends Controller
 
         //retona las citas
         $citas = Cita::with('PacienteCita')->get();
+        $historial = Historial::with('HistoriaPaciente')->get();
         return Inertia::render('Citas/Index', [
             "pacientes" => Paciente::all(),
             "doctores" => $roles, //para saber cuales son lo roles de doctor
-            "citas" => $citas
+            "citas" => $citas,
+            "historial" => $historial
         ]);
     }
 

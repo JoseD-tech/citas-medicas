@@ -7,7 +7,7 @@
         </template>
 
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+            <div  class="inline-block min-w-full overflow-hidden rounded-lg shadow">
                 <div class="flex justify-end item-center py-2">
                     <Link :href="route('paciente.create')"
                         class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">
@@ -15,7 +15,7 @@
                     </Link>
                 </div>
 
-                <table class="w-full whitespace-no-wrap">
+                <table v-if="props.pacientes.length > 0" class="w-full whitespace-no-wrap">
                     <thead>
                         <tr
                             class="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -63,6 +63,7 @@
                     </tbody>
                 </table>
 
+                <p v-else class="text-xl ml-4">No Hay Pacientes Registrados</p>
 
             </div>
         </div>

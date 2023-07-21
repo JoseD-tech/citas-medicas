@@ -1,14 +1,18 @@
 <?php
 
-use App\Http\Controllers\CitaController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\PacienteController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SecretatioController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
+use App\Models\Cita;
 use Inertia\Inertia;
+use App\Models\Paciente;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\CitaController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\SecretatioController;
+use App\Models\Historial;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 
 /*
@@ -27,7 +31,23 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+
+    $rolDoctor = Role::where('name', 'doctor')->first();
+    $rolSecretario = Role::where('name', 'secretario')->first();
+
+    $historial = Historial::with('HistoriaPaciente')->get();
+    $citas = Cita::all()->count();
+    $pacientes = Paciente::all()->count();
+    $numeroDoctores = $rolDoctor->users()->count();
+    $numeroSecretario = $rolSecretario->users()->count();
+
+    return Inertia::render('Dashboard', [
+        'citas' => $citas,
+        'pacientes' => $pacientes,
+        'doctores' => $numeroDoctores,
+        'secretario' => $numeroSecretario,
+        'historial' => $historial
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

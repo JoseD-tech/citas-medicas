@@ -18,9 +18,10 @@ class DoctorController extends Controller
         //retorna la vista de Doctores
 
         $citas = Cita::with('PacienteCita')->get();
-
+        $historial = Historial::with('HistoriaPaciente')->get();
         return Inertia::render('Doctor/Index', [
-            'citas' => $citas
+            'citas' => $citas,
+            'reporte' => $historial
         ]);
     }
 
